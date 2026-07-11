@@ -1,0 +1,59 @@
+name: Windows Installer
+
+# Builds the TEAL TK84 plugin on a real Windows runner (MSVC), compiles the
+# Inno Setup installer, and publishes the resulting .exe so it can be
+# downloaded — both as a build artifact and as a pre-release asset.
+
+on:
+  push:
+    branches: ["**"]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows-installer:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Configure (CMake, fetches JUCE)
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build (Release)
+        run: cmake --build build --config Release --parallel
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Compile installer
+        run: '& "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" installer\TEAL_TK84.iss'
+
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: TEAL_TK84-Windows-Installer
+          path: installer/Output/*.exe
+          if-no-files-found: error
+
+      # Publish a downloadable pre-release with the installer attached.
+      # On a version tag (v*) this creates a real release; otherwise it keeps a
+      # rolling "ci-windows" pre-release pointing at the latest build.
+      - name: Publish pre-release (branch build)
+        if: github.ref_type == 'branch'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ci-windows
+          name: Windows Installer (latest CI build)
+          prerelease: true
+          files: installer/Output/*.exe
+
+      - name: Publish release (tag build)
+        if: github.ref_type == 'tag'
+        uses: softprops/action-gh-release@v2
+        with:
+          files: installer/Output/*.exe
