@@ -24,6 +24,7 @@ JUCE/
 
 # Installer output
 installer/*.exe
+installer/Output/
 
 # OS generated
 .DS_Store

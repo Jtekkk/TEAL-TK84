@@ -25,7 +25,7 @@ void TK84VCA::setMode(VCAMode mode)
     currentMode = mode;
 }
 
-float TK84VCA::applyVintageNonlinearity(float input, float cvDB) const
+float TK84VCA::applyVintageNonlinearity(float input, float cvDB)
 {
     // Only apply when we have meaningful gain reduction
     if (cvDB > -0.3f)
