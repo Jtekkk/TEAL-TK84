@@ -72,7 +72,7 @@ private:
 
     void updateCoefficients();
     float applyHPF(float input, float& state);
-    float processOneChannel(float input, float& rmsState, float& peakState);
+    float processOneChannel(float input, float& rmsState, float& peakState, float& hpfState);
 };
 
 } // namespace TEAL::TK84

@@ -2,6 +2,8 @@
 #include <array>
 #include <string_view>
 #include <cstdint>
+#include <algorithm>
+#include <cmath>
 
 namespace TEAL::TK84 {
 

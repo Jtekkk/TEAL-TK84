@@ -39,7 +39,7 @@ private:
     // Slight DC offset removal for vintage mode stability
     float dcBlockState = 0.0f;
 
-    float applyVintageNonlinearity(float input, float cvDB) const;
+    float applyVintageNonlinearity(float input, float cvDB);
 };
 
 } // namespace TEAL::TK84

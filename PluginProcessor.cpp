@@ -124,33 +124,32 @@ void TEALTK84AudioProcessor::processBlock(juce::AudioBuffer<float>& buffer, juce
     for (auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i)
         buffer.clear(i, 0, buffer.getNumSamples());
 
-    // Read parameters from APVTS using clean ParamID namespace
+    // Read parameters from APVTS. Parameter IDs are passed as string literals to
+    // avoid any name collision with the local variables declared below.
     using namespace TEAL::TK84;
-    using namespace TEAL::TK84::ParamID;
 
     auto getChoice = [&](const juce::String& id) {
         return static_cast<int>(apvts.getRawParameterValue(id)->load());
     };
 
-    float thresholdDB = kThresholdValues[getChoice(threshold)];
-    auto ratio        = static_cast<Ratio>(getChoice(ratio));
-    auto attack       = static_cast<Attack>(getChoice(attack));
-    auto releaseMode  = static_cast<Release>(getChoice(release));
+    float thresholdDB = kThresholdValues[getChoice("threshold")];
+    auto ratio        = static_cast<Ratio>(getChoice("ratio"));
+    auto attack       = static_cast<Attack>(getChoice("attack"));
+    auto releaseMode  = static_cast<Release>(getChoice("release"));
 
-    float transientLevel     = kTransientLevelValues[getChoice(transientLevel)];
-    float transientIntensity = kTransientIntensityValues[getChoice(transientIntensity)];
-    float outputGainDB       = kOutputValues[getChoice(outputGain)];
+    float transientLevel     = kTransientLevelValues[getChoice("transientLevel")];
+    float transientIntensity = kTransientIntensityValues[getChoice("transientIntensity")];
+    float outputGainDB       = kOutputValues[getChoice("outputGain")];
 
-    auto scHPF      = static_cast<SCHPF>(getChoice(scHPF));
-    auto stereoLink = static_cast<StereoLink>(getChoice(stereoLink));
-    float inputTrim = kInputTrimMin + getChoice(inputTrim) * kInputTrimStep;
+    auto scHPF      = static_cast<SCHPF>(getChoice("scHPF"));
+    auto stereoLink = static_cast<StereoLink>(getChoice("stereoLink"));
+    float inputTrim = kInputTrimMin + getChoice("inputTrim") * kInputTrimStep;
 
-    auto vuRef        = static_cast<VURef>(getChoice(vuRef));
-    auto grRange      = static_cast<GRMeterRange>(getChoice(grMeterRange));
-    auto oversampling = static_cast<Oversampling>(getChoice(oversampling));
-    auto vcaMode      = static_cast<VCAMode>(getChoice(vcaMode));
-    bool peakHold     = getChoice(peakHold) > 0.5f;
-    bool bypass       = getChoice(bypass) > 0.5f;
+    auto vuRef        = static_cast<VURef>(getChoice("vuRef"));
+    auto grRange      = static_cast<GRMeterRange>(getChoice("grMeterRange"));
+    auto oversampling = static_cast<Oversampling>(getChoice("oversampling"));
+    auto vcaMode      = static_cast<VCAMode>(getChoice("vcaMode"));
+    bool bypass       = getChoice("bypass") > 0;
 
     // Update DSP engine
     engine.setParameters(
@@ -232,7 +231,7 @@ void TEALTK84AudioProcessor::setCurrentProgram(int index)
             param->setValueNotifyingHost(param->getNormalisableRange().convertTo0to1(static_cast<float>(valueIndex)));
     };
 
-    auto setSteppedFloat = [this](const juce::String& id, float value)
+    auto setSteppedFloat = [this, &setChoice](const juce::String& id, float value)
     {
         int index = 0;
 

@@ -69,9 +69,9 @@ void TK84Engine::setParameters(
     SCHPF scHPF_,
     StereoLink stereoLink_,
     float inputTrimDB_,
-    VURef /*vuRef_*/,
-    GRMeterRange /*grRange_*/,
-    Oversampling /*oversampling_*/,
+    VURef vuRef_,
+    GRMeterRange grRange_,
+    Oversampling oversampling_,
     VCAMode vcaMode_,
     bool bypass_
 )

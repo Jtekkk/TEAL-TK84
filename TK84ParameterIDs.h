@@ -4,7 +4,9 @@
 #include <JuceHeader.h>
 #include "TEAL_TK84_Parameters.h"
 
-namespace TEAL::TK84::ParamID
+// NOTE: named ParamIDs (plural) to avoid clashing with the `enum class ParamID`
+// declared in TEAL_TK84_Parameters.h.
+namespace TEAL::TK84::ParamIDs
 {
     //==========================================================================
     // Parameter IDs (used with AudioProcessorValueTreeState)
