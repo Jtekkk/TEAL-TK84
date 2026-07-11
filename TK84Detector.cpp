@@ -51,7 +51,7 @@ void TK84Detector::setSCHPF(SCHPF hpfMode)
     else
     {
         // Simple 1-pole high-pass (can be upgraded to proper 12 dB/oct later)
-        float omega = 2.0f * M_PI * cutoff / static_cast<float>(internalSampleRate);
+        float omega = 2.0f * kPi * cutoff / static_cast<float>(internalSampleRate);
         hpfCoeff = omega / (1.0f + omega);
     }
 }

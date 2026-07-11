@@ -12,6 +12,10 @@ namespace TEAL::TK84 {
 // All controls are stepped for perfect recall. No continuous values.
 //==============================================================================
 
+// Portable pi constant. M_PI is not defined by default on MSVC, so DSP code
+// uses this instead to stay compiler-independent.
+inline constexpr float kPi = 3.14159265358979323846f;
+
 //------------------------------------------------------------------------------
 // THRESHOLD: −40 dBFS to +10 dBFS, 2 dB steps (26 detents)
 // Default: −10 dBFS
