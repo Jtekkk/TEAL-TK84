@@ -1,0 +1,33 @@
+# Build directories
+build/
+cmake-build-*/
+out/
+
+# IDE
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.sln.docstates
+
+# JUCE generated
+*_artefacts/
+JUCE/
+
+# Compiled binaries
+*.exe
+*.dll
+*.vst3
+*.component
+*.aaxplugin
+
+# Installer output
+installer/*.exe
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
